@@ -17,6 +17,10 @@ class Contact extends Model {
 
   static associate(models) {
     this.hasMany(models.Phone, { foreignKey: 'contact_id', as: 'phones' });
+    this.belongsTo(models.File, {
+      foreignKey: 'avatar_id',
+      as: 'avatar',
+    });
   }
 }
 
