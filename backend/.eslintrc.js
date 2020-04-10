@@ -17,5 +17,6 @@ module.exports = {
     'prettier/prettier': 'error',
     'class-methods-use-this': 'off',
     camelcase: 'off',
+    'no-param-reassign': 'off',
   },
 };

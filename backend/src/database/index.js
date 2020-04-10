@@ -4,10 +4,11 @@ import Address from '../app/models/Address';
 import Contact from '../app/models/Contact';
 import File from '../app/models/File';
 import Phone from '../app/models/Phone';
+import User from '../app/models/User';
 
 import databaseConfig from '../config/database';
 
-const models = [Address, Contact, File, Phone];
+const models = [Address, Contact, File, Phone, User];
 
 class Database {
   constructor() {
