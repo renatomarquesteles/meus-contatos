@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 
+import Mail from '../../lib/Mail';
 import User from '../models/User';
 
 class UserController {
@@ -26,6 +27,13 @@ class UserController {
       name,
       email,
       password,
+    });
+
+    await Mail.sendMail({
+      to: `${name} <${email}>`,
+      subject: 'Bem-vindo!',
+      template: 'newUser',
+      context: { name },
     });
 
     return res.json({
