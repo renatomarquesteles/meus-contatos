@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import * as Yup from 'yup';
 
+import Address from '../models/Address';
 import Contact from '../models/Contact';
 import File from '../models/File';
 import Phone from '../models/Phone';
@@ -28,6 +29,19 @@ class ContactController {
           as: 'phones',
           attributes: ['phone_number'],
         },
+        {
+          model: Address,
+          as: 'addresses',
+          attributes: [
+            'zipcode',
+            'city',
+            'state',
+            'neighborhood',
+            'street',
+            'number',
+            'complement',
+          ],
+        },
       ],
     });
 
@@ -38,7 +52,18 @@ class ContactController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string().email(),
-      phones: Yup.array().of(Yup.string()),
+      phones: Yup.array().of(Yup.string().max(14)),
+      addresses: Yup.array().of(
+        Yup.object().shape({
+          zipcode: Yup.string().required(),
+          city: Yup.string().required(),
+          state: Yup.string().max(2).required(),
+          neighborhood: Yup.string().required(),
+          street: Yup.string().required(),
+          number: Yup.number().required(),
+          complement: Yup.string(),
+        })
+      ),
       avatar_id: Yup.number(),
     });
 
@@ -54,16 +79,35 @@ class ContactController {
       avatar_id,
     });
 
-    const { phones } = req.body;
+    const { addresses, phones } = req.body;
+    let phonesPromises = [];
+    let addressesPromises = [];
 
-    const promises = phones.map(async (phone) => {
-      await Phone.create({
-        contact_id: contact.id,
-        phone_number: phone,
+    if (phones) {
+      phonesPromises = phones.map(async (phone) => {
+        await Phone.create({
+          contact_id: contact.id,
+          phone_number: phone,
+        });
       });
-    });
+    }
 
-    await Promise.all(promises);
+    if (addresses) {
+      addressesPromises = addresses.map(async (address) => {
+        await Address.create({
+          contact_id: contact.id,
+          zipcode: address.zipcode,
+          city: address.city,
+          state: address.state,
+          neighborhood: address.neighborhood,
+          street: address.street,
+          number: address.number,
+          complement: address.complement,
+        });
+      });
+    }
+
+    await Promise.all([...addressesPromises, ...phonesPromises]);
 
     const newContact = await Contact.findByPk(contact.id, {
       attributes: ['id', 'name', 'email'],
@@ -78,6 +122,19 @@ class ContactController {
           as: 'phones',
           attributes: ['phone_number'],
         },
+        {
+          model: Address,
+          as: 'addresses',
+          attributes: [
+            'zipcode',
+            'city',
+            'state',
+            'neighborhood',
+            'street',
+            'number',
+            'complement',
+          ],
+        },
       ],
     });
 
@@ -89,6 +146,17 @@ class ContactController {
       name: Yup.string(),
       email: Yup.string().email(),
       phones: Yup.array().of(Yup.string()),
+      addresses: Yup.array().of(
+        Yup.object().shape({
+          zipcode: Yup.string().required(),
+          city: Yup.string().required(),
+          state: Yup.string().max(2).required(),
+          neighborhood: Yup.string().required(),
+          street: Yup.string().required(),
+          number: Yup.number().required(),
+          complement: Yup.string(),
+        })
+      ),
       avatar_id: Yup.number(),
     });
 
@@ -102,20 +170,39 @@ class ContactController {
       return res.status(400).json({ error: 'Contact not found' });
     }
 
-    const { phones } = req.body;
+    const { addresses, phones } = req.body;
+    let phonesPromises = [];
+    let addressesPromises = [];
 
     if (phones) {
       await Phone.destroy({ where: { contact_id: contact.id } });
 
-      const promises = phones.map(async (phone) => {
+      phonesPromises = phones.map(async (phone) => {
         await Phone.create({
           contact_id: contact.id,
           phone_number: phone,
         });
       });
-
-      await Promise.all(promises);
     }
+
+    if (addresses) {
+      await Address.destroy({ where: { contact_id: contact.id } });
+
+      addressesPromises = addresses.map(async (address) => {
+        await Address.create({
+          contact_id: contact.id,
+          zipcode: address.zipcode,
+          city: address.city,
+          state: address.state,
+          neighborhood: address.neighborhood,
+          street: address.street,
+          number: address.number,
+          complement: address.complement,
+        });
+      });
+    }
+
+    await Promise.all([...addressesPromises, ...phonesPromises]);
 
     await contact.update(req.body);
 
@@ -132,6 +219,19 @@ class ContactController {
           as: 'phones',
           attributes: ['phone_number'],
         },
+        {
+          model: Address,
+          as: 'addresses',
+          attributes: [
+            'zipcode',
+            'city',
+            'state',
+            'neighborhood',
+            'street',
+            'number',
+            'complement',
+          ],
+        },
       ],
     });
 
@@ -146,6 +246,7 @@ class ContactController {
     }
 
     await Phone.destroy({ where: { contact_id: contact.id } });
+    await Address.destroy({ where: { contact_id: contact.id } });
     contact.destroy();
 
     return res.status(204).send();
