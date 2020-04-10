@@ -3,10 +3,14 @@ import multer from 'multer';
 
 import ContactController from './app/controllers/ContactController';
 import FileController from './app/controllers/FileController';
+import UserController from './app/controllers/UserController';
 import multerConfig from './config/multer';
 
 const routes = new Router();
 const upload = multer(multerConfig);
+
+routes.post('/users', UserController.store);
+routes.put('/users', UserController.update);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
