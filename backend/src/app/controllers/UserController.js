@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
-import Mail from '../../lib/Mail';
+import Queue from '../../lib/Queue';
+import NewUserEmail from '../jobs/NewUserEmail';
 import User from '../models/User';
 
 class UserController {
@@ -29,12 +30,7 @@ class UserController {
       password,
     });
 
-    await Mail.sendMail({
-      to: `${name} <${email}>`,
-      subject: 'Bem-vindo!',
-      template: 'newUser',
-      context: { name },
-    });
+    await Queue.add(NewUserEmail.key, { name, email });
 
     return res.json({
       id,
