@@ -1,9 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 
 import Contacts from '../pages/Contacts';
 import Login from '../pages/Login';
 import NewContact from '../pages/NewContact';
+import Route from './Route';
 
 export default function Routes() {
   return (
