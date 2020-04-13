@@ -33,16 +33,11 @@ export const Content = styled.div`
   a {
     font-weight: 400;
     color: ${colors.primary};
+    margin-left: 5px;
 
     &:hover {
       text-decoration: underline;
       color: ${darken(0.04, colors.primary)};
     }
   }
-`;
-
-export const Title = styled.h1`
-  font-size: 30px;
-  color: ${colors.primary};
-  font-weight: 400;
 `;

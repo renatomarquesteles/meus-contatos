@@ -13,7 +13,7 @@ const rotate = keyframes`
 `;
 
 export const DefaultButton = styled.button`
-  height: 36px;
+  height: 44px;
   color: #fff;
   font-size: 14px;
   font-weight: bold;

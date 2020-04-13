@@ -1,7 +1,15 @@
 import React from 'react';
 
-import { Wrapper } from './styles';
+import backgroundImage from '../../../assets/personal_notebook.svg';
+import { Container, Wrapper } from './styles';
 
 export default function AuthLayout({ children }) {
-  return <Wrapper>{children}</Wrapper>;
+  return (
+    <Wrapper>
+      <Container>
+        <img src={backgroundImage} alt="Imagem de fundo" />
+        {children}
+      </Container>
+    </Wrapper>
+  );
 }
