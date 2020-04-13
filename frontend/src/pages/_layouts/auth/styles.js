@@ -18,4 +18,5 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   height: 100%;
   background: #00b0ff;
+  overflow-x: hidden;
 `;

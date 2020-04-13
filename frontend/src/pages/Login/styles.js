@@ -13,6 +13,11 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
 
+  > img {
+    height: 24px;
+    margin: 5px 0;
+  }
+
   > strong {
     font-size: 24px;
     font-weight: 500;
@@ -39,10 +44,4 @@ export const Content = styled.div`
       color: ${darken(0.04, colors.primary)};
     }
   }
-`;
-
-export const Title = styled.h1`
-  font-size: 30px;
-  color: ${colors.primary};
-  font-weight: 400;
 `;

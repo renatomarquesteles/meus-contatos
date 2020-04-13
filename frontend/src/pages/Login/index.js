@@ -4,9 +4,10 @@ import { MdArrowForward, MdEmail, MdLock } from 'react-icons/md';
 import { FiLoader } from 'react-icons/fi';
 import { Form } from '@unform/web';
 
+import logo from '../../assets/logo.png';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { Content, Title } from './styles';
+import { Content } from './styles';
 
 export default function Login() {
   let [loading, setLoading] = useState(false);
@@ -27,7 +28,7 @@ export default function Login() {
 
   return (
     <Content>
-      <Title>Meus Contatos</Title>
+      <img src={logo} alt="Meus Contatos" />
       <strong>Bem-vindo</strong>
       <span>Salve seus contatos e consulte onde e quando quiser!</span>
       <Form ref={formRef} onSubmit={() => setErrors()}>
