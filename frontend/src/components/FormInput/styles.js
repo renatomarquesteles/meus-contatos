@@ -31,21 +31,21 @@ export const InputWrapper = styled.div`
 
   input {
     width: 100%;
-    color: #444;
+    color: ${colors.primaryText};
     font-size: 16px;
     background: none;
     border: 0;
 
     ::placeholder {
-      color: #999;
+      color: ${colors.secondaryText};
     }
   }
 
   &:focus-within {
-    border-color: #00b0ff;
+    border-color: ${colors.primary};
 
     svg {
-      fill: #00b0ff;
+      fill: ${colors.primary};
     }
   }
 `;

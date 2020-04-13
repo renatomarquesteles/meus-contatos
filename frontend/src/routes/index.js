@@ -14,7 +14,7 @@ export default function Routes() {
         <Route path="/" exact component={Login} />
         <Route path="/register" component={SignUp} />
         <Route path="/contacts" exact component={Contacts} isPrivate />
-        <Route path="/contacts/new" component={NewContact} isPrivate />
+        <Route path="/newContact" component={NewContact} isPrivate />
       </Switch>
     </BrowserRouter>
   );

@@ -18,7 +18,7 @@ export default function Header() {
               <NavLink to="/contacts">LISTA</NavLink>
             </ListItem>
             <ListItem>
-              <NavLink to="/contacts/new">NOVO CONTATO</NavLink>
+              <NavLink to="/newContact">NOVO CONTATO</NavLink>
             </ListItem>
           </ul>
         </nav>

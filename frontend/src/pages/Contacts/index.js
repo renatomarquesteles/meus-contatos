@@ -12,7 +12,7 @@ export default function Contacts() {
       <h1>Lista de Contatos</h1>
       <Tools>
         <SearchInput name="search" placeholder="Buscar nome ou número..." />
-        <Link to="/contacts/new">
+        <Link to="/newContact">
           <Button type="button">
             <MdAdd size={22} color="#f5f5f5" />
             <span>NOVO CONTATO</span>
