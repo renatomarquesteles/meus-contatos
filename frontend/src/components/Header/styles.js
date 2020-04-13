@@ -97,6 +97,12 @@ export const Content = styled.div`
       }
     }
   }
+
+  @media (max-width: 420px) {
+    img {
+      display: none;
+    }
+  }
 `;
 
 export const Divider = styled.div`

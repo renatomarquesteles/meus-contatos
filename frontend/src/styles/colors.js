@@ -6,5 +6,5 @@ export default {
   whiteText: '#f5f5f5',
   container: '#f5f5f5',
   error: '#e74c3c',
-  background: '#f1f1f1',
+  background: '#f0f0f0',
 };

@@ -33,7 +33,7 @@ export const DefaultButton = styled.button`
   }
 
   svg {
-    margin-left: 5px;
+    margin-right: 5px;
   }
 
   span + svg {
