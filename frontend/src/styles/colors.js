@@ -3,6 +3,8 @@ export default {
   secondary: '#3f3d56',
   primaryText: '#444',
   secondaryText: '#999',
+  whiteText: '#f5f5f5',
   container: '#f5f5f5',
-  error: '#E74C3C',
+  error: '#e74c3c',
+  background: '#f1f1f1',
 };
