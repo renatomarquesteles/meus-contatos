@@ -10,7 +10,7 @@ import { FiLoader } from 'react-icons/fi';
 import { Form } from '@unform/web';
 
 import Button from '../../components/Button';
-import Input from '../../components/Input';
+import Input from '../../components/FormInput';
 import { Content } from './styles';
 
 export default function SignUp() {
