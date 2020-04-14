@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   MdAccountCircle,
@@ -7,6 +7,7 @@ import {
   MdPersonAdd,
 } from 'react-icons/md';
 import { Form } from '@unform/web';
+import { Scope } from '@unform/core';
 
 import Button from '../../components/Button';
 import PhoneInput from '../../components/PhoneInput';
@@ -16,13 +17,19 @@ import {
   AddButtonContainer,
   AddressContainer,
   AddressInfo,
-  CityStateWrapper,
+  InputsWrapper,
   Container,
   Content,
 } from './styles';
 
 export default function NewContact() {
+  const [phones, setPhones] = useState(['']);
+  const [addresses, setAddresses] = useState(['']);
   const formRef = useRef(null);
+
+  function handleSubmit(data) {
+    console.log(data);
+  }
 
   return (
     <Container>
@@ -32,10 +39,10 @@ export default function NewContact() {
           Insira os dados de um novo contato e o adicione à sua lista de
           contatos!
         </p>
-        <Form ref={formRef} onSubmit={() => {}}>
+        <Form ref={formRef} onSubmit={handleSubmit}>
           <Input
             name="name"
-            label="Nome"
+            label="Nome*"
             placeholder="John Doe"
             icon={MdAccountCircle}
           />
@@ -46,46 +53,72 @@ export default function NewContact() {
             placeholder="exemplo@email.com"
             icon={MdEmail}
           />
-          <PhoneInput name="phone" label="Telefone/Celular" />
+          <p>Telefone/Celular</p>
+          {phones.map((_, index) => (
+            <PhoneInput key={index} name={`phones[${index}]`} />
+          ))}
           <AddButtonContainer>
-            <button type="button">
+            <button type="button" onClick={() => setPhones([...phones, ''])}>
               <MdAddCircleOutline size={24} color="#444" />
             </button>
           </AddButtonContainer>
           <AddressContainer>
             <label>Endereço</label>
-            <AddressInfo>
-              <Input
-                name="zipcode"
-                label="CEP"
-                mask="99999-999"
-                maskPlaceholder="_____-___"
-                placeholder="99999-999"
-              />
-              <Input
-                name="street"
-                label="Logradouro"
-                placeholder="Rua São José"
-              />
-              <Input
-                name="complement"
-                label="Complemento"
-                placeholder="Informações adicionais"
-              />
-              <Input name="neighborhood" label="Bairro" placeholder="Centro" />
-              <CityStateWrapper>
-                <Input name="city" label="Cidade" placeholder="São Paulo" />
-                <Input
-                  name="state"
-                  label="Estado"
-                  mask="aa"
-                  maskPlaceholder="_"
-                  placeholder="SP"
-                />
-              </CityStateWrapper>
-            </AddressInfo>
+            {addresses.map((_, index) => (
+              <AddressInfo key={index}>
+                <Scope path={`addresses[${index}]`}>
+                  <Input
+                    name="zipcode"
+                    label="CEP*"
+                    mask="99999-999"
+                    maskPlaceholder="_____-___"
+                    placeholder="99999-999"
+                  />
+                  <InputsWrapper>
+                    <Input
+                      name="street"
+                      label="Logradouro*"
+                      placeholder="Rua São José"
+                    />
+                    <Input
+                      name="number"
+                      label="Número*"
+                      mask="9999"
+                      placeholder="9999"
+                    />
+                  </InputsWrapper>
+                  <Input
+                    name="complement"
+                    label="Complemento"
+                    placeholder="Informações adicionais"
+                  />
+                  <Input
+                    name="neighborhood"
+                    label="Bairro*"
+                    placeholder="Centro"
+                  />
+                  <InputsWrapper>
+                    <Input
+                      name="city"
+                      label="Cidade*"
+                      placeholder="São Paulo"
+                    />
+                    <Input
+                      name="state"
+                      label="Estado*"
+                      mask="aa"
+                      maskPlaceholder="_"
+                      placeholder="SP"
+                    />
+                  </InputsWrapper>
+                </Scope>
+              </AddressInfo>
+            ))}
             <AddButtonContainer>
-              <button type="button">
+              <button
+                type="button"
+                onClick={() => setAddresses([...addresses, ''])}
+              >
                 <MdAddCircleOutline size={24} color="#444" />
               </button>
             </AddButtonContainer>

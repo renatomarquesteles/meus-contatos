@@ -30,6 +30,12 @@ export const Content = styled.div`
     width: 100%;
     margin: 10px 0;
   }
+
+  form > p {
+    margin-top: 15px;
+    font-weight: bold;
+    color: ${colors.primaryText};
+  }
 `;
 
 export const AddButtonContainer = styled.div`
@@ -64,12 +70,13 @@ export const AddressContainer = styled.div`
 
 export const AddressInfo = styled.div`
   margin-top: 5px;
+  margin-bottom: 10px;
   padding: 0 10px 10px;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
-export const CityStateWrapper = styled.div`
+export const InputsWrapper = styled.div`
   display: grid;
   grid-template-columns: 4fr 1fr;
   grid-gap: 10px;
