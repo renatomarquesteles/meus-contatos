@@ -72,13 +72,6 @@ export const InputContainer = styled.div`
   flex-direction: column;
   margin: 10px 0 0;
 
-  label {
-    font-weight: bold;
-    margin: 5px 0;
-    font-weight: bold;
-    color: ${colors.primaryText};
-  }
-
   ${InputWrapper} {
     ${(props) =>
       props.error &&

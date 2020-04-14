@@ -4,7 +4,7 @@ import { useField } from '@unform/core';
 
 import { ErrorMessage, InputContainer, InputWrapper } from './styles';
 
-export default function PhoneInput({ name, label, ...rest }) {
+export default function PhoneInput({ name, ...rest }) {
   const [mask, setMask] = useState({
     mask: '(99) 99999-9999',
     placeholder: '(__) _____-____',
@@ -36,7 +36,6 @@ export default function PhoneInput({ name, label, ...rest }) {
 
   return (
     <InputContainer error={error}>
-      <label htmlFor={name}>{label}</label>
       <InputWrapper>
         <select onChange={(e) => handlePhoneMask(e)}>
           <option value="celular">Celular</option>
