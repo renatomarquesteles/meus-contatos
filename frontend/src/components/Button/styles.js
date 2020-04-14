@@ -48,8 +48,19 @@ export const DefaultButton = styled.button`
       background: ${darken(0.04, colors.primary)};
 
       svg {
-        margin: 0 5px 0 0;
+        mardiv
+divgin: 0 5px 0 0;
         animation: ${rotate} 2s linear infinite;
       }
     `}
+`;
+
+export const SecondaryButton = styled(DefaultButton)`
+  color: ${colors.primary};
+  background: ${colors.container};
+  border: 1px solid ${colors.primary};
+
+  &:hover {
+    background: ${darken(0.02, colors.container)};
+  }
 `;
