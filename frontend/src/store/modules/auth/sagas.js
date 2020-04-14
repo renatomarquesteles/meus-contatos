@@ -1,7 +1,7 @@
 import { all, call, takeLatest, put } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 
-import { signInSuccess, signFailure } from './actions';
+import { signInSuccess, signUpSuccess, signFailure } from './actions';
 import api from '../../../services/api';
 import history from '../../../services/history';
 
@@ -33,6 +33,8 @@ export function* signUp({ payload }) {
       email,
       password,
     });
+
+    yield put(signUpSuccess());
 
     history.push('/');
   } catch (err) {
