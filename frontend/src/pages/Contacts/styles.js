@@ -1,7 +1,16 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { darken } from 'polished';
 
 import colors from '../../styles/colors';
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 export const Content = styled.div`
   width: 100%;
@@ -72,9 +81,28 @@ export const ContactInfo = styled.div`
   margin-left: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
 
   span {
     color: ${colors.secondaryText};
+    margin-top: 3px;
   }
+`;
+
+export const Loader = styled.div`
+  width: 100%;
+  height: 60px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  ${(props) =>
+    props.isLoading &&
+    css`
+      display: flex;
+
+      svg {
+        animation: ${rotate} 2s linear infinite;
+      }
+    `}
 `;

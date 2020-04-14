@@ -98,7 +98,7 @@ export const Content = styled.div`
     }
   }
 
-  @media (max-width: 420px) {
+  @media (max-width: 540px) {
     img {
       display: none;
     }
