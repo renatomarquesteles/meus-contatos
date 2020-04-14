@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MdArrowForward, MdEmail, MdLock } from 'react-icons/md';
 import { FiLoader } from 'react-icons/fi';
@@ -8,11 +9,13 @@ import * as Yup from 'yup';
 import logo from '../../assets/logo.png';
 import Button from '../../components/Button';
 import Input from '../../components/FormInput';
+import { signInRequest } from '../../store/modules/auth/actions';
 import { Content } from './styles';
 
 export default function Login() {
   const formRef = useRef(null);
-  const loading = false;
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.auth.loading);
 
   async function handleSubmit({ email, password }) {
     try {
@@ -28,6 +31,8 @@ export default function Login() {
       await schema.validate({ email, password }, { abortEarly: false });
 
       formRef.current.setErrors({});
+
+      dispatch(signInRequest(email, password));
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errorMessages = {};
