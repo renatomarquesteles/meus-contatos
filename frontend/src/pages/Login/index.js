@@ -24,8 +24,8 @@ export default function Login() {
           .email('Digite um e-mail válido')
           .required('O e-mail é obrigatório'),
         password: Yup.string()
-          .required('A senha é obrigatória')
-          .min(6, 'A senha deve ter pelo menos 6 caracteres'),
+          .min(6, 'A senha deve conter pelo menos 6 caracteres')
+          .required('A senha é obrigatória'),
       });
 
       await schema.validate({ email, password }, { abortEarly: false });
@@ -66,7 +66,7 @@ export default function Login() {
           placeholder="********"
           icon={MdLock}
         />
-        <Button type="submit" loading={loading} disabled={loading}>
+        <Button type="submit" isLoading={loading} disabled={loading}>
           {loading ? (
             <>
               <FiLoader size={20} color="#fff" />

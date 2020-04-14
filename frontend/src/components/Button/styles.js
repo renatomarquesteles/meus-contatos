@@ -42,14 +42,13 @@ export const DefaultButton = styled.button`
   }
 
   ${(props) =>
-    props.loading &&
+    props.isLoading &&
     css`
       cursor: not-allowed;
       background: ${darken(0.04, colors.primary)};
 
       svg {
-        mardiv
-divgin: 0 5px 0 0;
+        margin: 0 5px 0 0;
         animation: ${rotate} 2s linear infinite;
       }
     `}

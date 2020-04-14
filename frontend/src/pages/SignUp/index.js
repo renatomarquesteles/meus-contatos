@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   MdAccountCircle,
@@ -8,34 +9,53 @@ import {
 } from 'react-icons/md';
 import { FiLoader } from 'react-icons/fi';
 import { Form } from '@unform/web';
+import * as Yup from 'yup';
 
 import Button from '../../components/Button';
 import Input from '../../components/FormInput';
+import { signUpRequest } from '../../store/modules/auth/actions';
 import { Content } from './styles';
 
 export default function SignUp() {
-  let [loading, setLoading] = useState(false);
   const formRef = useRef(null);
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.auth.loading);
 
-  function setErrors() {
-    formRef.current.setErrors({
-      name: 'Nome é obrigatório',
-      email: 'E-mail é obrigatório',
-      password: 'Senha é obrigatória',
-    });
+  async function handleSubmit({ name, email, password }) {
+    try {
+      const schema = Yup.object().shape({
+        name: Yup.string().required('O nome é obrigatório'),
+        email: Yup.string()
+          .email('Digite um e-mail válido')
+          .required('O e-mail é obrigatório'),
+        password: Yup.string()
+          .min(6, 'A senha deve conter pelo menos 6 caracteres')
+          .required('A senha é obrigatória'),
+      });
 
-    setLoading(true);
+      await schema.validate({ name, email, password }, { abortEarly: false });
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+      formRef.current.setErrors({});
+
+      dispatch(signUpRequest(name, email, password));
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errorMessages = {};
+
+        err.inner.forEach((error) => {
+          errorMessages[error.path] = error.message;
+        });
+
+        formRef.current.setErrors(errorMessages);
+      }
+    }
   }
 
   return (
     <Content>
       <strong>Realizar Cadastro</strong>
       <span>Salve seus contatos e consulte onde e quando quiser!</span>
-      <Form ref={formRef} onSubmit={() => setErrors()}>
+      <Form ref={formRef} onSubmit={handleSubmit}>
         <Input
           name="name"
           type="name"
@@ -57,7 +77,7 @@ export default function SignUp() {
           placeholder="********"
           icon={MdLock}
         />
-        <Button type="submit" loading={loading} disabled={loading}>
+        <Button type="submit" isLoading={loading} disabled={loading}>
           {loading ? (
             <>
               <FiLoader size={20} color="#fff" />
