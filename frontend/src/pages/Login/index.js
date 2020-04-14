@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { MdArrowForward, MdEmail, MdLock } from 'react-icons/md';
 import { FiLoader } from 'react-icons/fi';
 import { Form } from '@unform/web';
+import * as Yup from 'yup';
 
 import logo from '../../assets/logo.png';
 import Button from '../../components/Button';
@@ -10,20 +11,34 @@ import Input from '../../components/FormInput';
 import { Content } from './styles';
 
 export default function Login() {
-  let [loading, setLoading] = useState(false);
   const formRef = useRef(null);
+  const loading = false;
 
-  function setErrors() {
-    formRef.current.setErrors({
-      email: 'E-mail é obrigatório',
-      password: 'Senha é obrigatória',
-    });
+  async function handleSubmit({ email, password }) {
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .email('Digite um e-mail válido')
+          .required('O e-mail é obrigatório'),
+        password: Yup.string()
+          .required('A senha é obrigatória')
+          .min(6, 'A senha deve ter pelo menos 6 caracteres'),
+      });
 
-    setLoading(true);
+      await schema.validate({ email, password }, { abortEarly: false });
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+      formRef.current.setErrors({});
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errorMessages = {};
+
+        err.inner.forEach((error) => {
+          errorMessages[error.path] = error.message;
+        });
+
+        formRef.current.setErrors(errorMessages);
+      }
+    }
   }
 
   return (
@@ -31,7 +46,7 @@ export default function Login() {
       <img src={logo} alt="Meus Contatos" />
       <strong>Bem-vindo</strong>
       <span>Salve seus contatos e consulte onde e quando quiser!</span>
-      <Form ref={formRef} onSubmit={() => setErrors()}>
+      <Form ref={formRef} onSubmit={handleSubmit}>
         <Input
           name="email"
           type="email"
