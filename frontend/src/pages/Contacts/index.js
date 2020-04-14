@@ -54,7 +54,7 @@ export default function Contacts() {
       <Tools>
         <SearchInput
           name="search"
-          placeholder="Buscar nome ou número..."
+          placeholder="Buscar contato..."
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
