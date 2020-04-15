@@ -52,7 +52,7 @@ class ContactController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string().email(),
-      phones: Yup.array().of(Yup.string().max(14)),
+      phones: Yup.array().of(Yup.string().min(14).max(15)),
       addresses: Yup.array().of(
         Yup.object().shape({
           zipcode: Yup.string().required(),
