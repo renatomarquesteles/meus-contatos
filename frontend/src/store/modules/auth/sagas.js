@@ -36,6 +36,7 @@ export function* signUp({ payload }) {
 
     yield put(signUpSuccess());
 
+    toast.success('Cadastrado com sucesso! Realize o login');
     history.push('/');
   } catch (err) {
     toast.error('Falha no cadastro, verifique seus dados');
