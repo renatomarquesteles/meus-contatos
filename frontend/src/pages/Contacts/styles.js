@@ -58,9 +58,21 @@ export const ContactList = styled.ul`
   }
 `;
 
+export const Actions = styled.div`
+  position: absolute;
+  right: 0;
+  opacity: 0;
+  margin-right: 10px;
+
+  svg {
+    margin-right: 5px;
+  }
+`;
+
 export const Contact = styled.li`
   padding: 10px;
   border-radius: 8px;
+  position: relative;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -73,6 +85,10 @@ export const Contact = styled.li`
 
   &:hover {
     background: ${darken(0.03, colors.container)};
+
+    ${Actions} {
+      opacity: 1;
+    }
   }
 `;
 
@@ -105,4 +121,70 @@ export const Loader = styled.div`
         animation: ${rotate} 2s linear infinite;
       }
     `}
+`;
+
+export const ModalInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > div {
+    width: 100%;
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+
+  h3 {
+    font-weight: bold;
+    margin: 10px 0;
+
+    span {
+      font-weight: 400;
+      margin-right: 5px;
+    }
+  }
+`;
+
+export const Endereco = styled.div`
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 4px 12px;
+  margin-bottom: 10px;
+`;
+
+export const Phones = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+`;
+
+export const EditButton = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  svg {
+    margin-left: 5px;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+
+    span {
+      color: ${colors.secondaryText};
+    }
+
+    &:hover {
+      background: ${colors.background};
+    }
+  }
 `;
