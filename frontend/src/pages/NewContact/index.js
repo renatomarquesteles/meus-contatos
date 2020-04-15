@@ -47,7 +47,11 @@ export default function NewContact() {
 
       const { avatar, phones, addresses } = response.data;
 
-      setAddresses(addresses);
+      if (addresses.length === 0) {
+        setAddresses(['']);
+      } else {
+        setAddresses(addresses);
+      }
       setAvatar(avatar);
 
       const formattedPhones = [];
