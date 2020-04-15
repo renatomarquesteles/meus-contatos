@@ -149,7 +149,7 @@ export default function Contacts() {
               <>
                 <h3>Endereço:</h3>
                 {modalInfo.addresses.map((address) => (
-                  <Endereco>
+                  <Endereco key={address.zipcode}>
                     <h3>
                       CEP: <span>{address.zipcode}</span>
                     </h3>

@@ -43,7 +43,6 @@ export default function NewContact() {
   async function getContact(id) {
     try {
       const response = await api.get(`contact/${id}`);
-      console.log(response.data);
 
       const { avatar, phones, addresses } = response.data;
 
