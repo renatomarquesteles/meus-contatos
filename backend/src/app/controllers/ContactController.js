@@ -7,6 +7,45 @@ import File from '../models/File';
 import Phone from '../models/Phone';
 
 class ContactController {
+  async show(req, res) {
+    const { id } = req.params;
+
+    const contact = await Contact.findByPk(id, {
+      attributes: ['id', 'name', 'email'],
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['path', 'url'],
+        },
+        {
+          model: Phone,
+          as: 'phones',
+          attributes: ['phone_number'],
+        },
+        {
+          model: Address,
+          as: 'addresses',
+          attributes: [
+            'zipcode',
+            'city',
+            'state',
+            'neighborhood',
+            'street',
+            'number',
+            'complement',
+          ],
+        },
+      ],
+    });
+
+    if (!contact) {
+      return res.status(400).json({ error: 'Contact not found' });
+    }
+
+    return res.json(contact);
+  }
+
   async index(req, res) {
     const { name = '' } = req.query;
 
