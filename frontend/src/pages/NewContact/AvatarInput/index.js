@@ -4,7 +4,7 @@ import { useField } from '@unform/core';
 
 import { Container, DefaultPreview } from './styles';
 
-export default function ImageInput({ name, ...rest }) {
+export default function ImageInput({ name, initialData, ...rest }) {
   const inputRef = useRef(null);
   const { fieldName, registerField, defaultValue } = useField(name);
   const [preview, setPreview] = useState(defaultValue);
@@ -41,6 +41,10 @@ export default function ImageInput({ name, ...rest }) {
       {preview ? (
         <label htmlFor="file">
           <img src={preview} alt="Preview" />
+        </label>
+      ) : initialData ? (
+        <label htmlFor="file">
+          <img src={initialData.url} alt="Avatar do Contato" />
         </label>
       ) : (
         <DefaultPreview htmlFor="file">

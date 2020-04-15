@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import {
   MdAccountCircle,
   MdAddCircleOutline,
@@ -30,7 +30,43 @@ import {
 export default function NewContact() {
   const [phones, setPhones] = useState(['']);
   const [addresses, setAddresses] = useState(['']);
+  const [avatar, setAvatar] = useState(null);
   const formRef = useRef(null);
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id) {
+      getContact(id);
+    }
+  }, [id]);
+
+  async function getContact(id) {
+    try {
+      const response = await api.get(`contact/${id}`);
+      console.log(response.data);
+
+      const { avatar, phones, addresses } = response.data;
+
+      setAddresses(addresses);
+      setAvatar(avatar);
+
+      const formattedPhones = [];
+      await phones.forEach((phone, index) => {
+        formattedPhones[index] = phone.phone_number;
+      });
+      setPhones(formattedPhones);
+
+      setTimeout(() => {
+        formRef.current.setData(response.data);
+
+        phones.map((phone, index) =>
+          formRef.current.setFieldValue(`phones[${index}]`, phone.phone_number)
+        );
+      }, 500);
+    } catch (err) {
+      toast.error('Dados do contato não encontrados');
+    }
+  }
 
   async function handleSubmit(data) {
     let avatar_id = null;
@@ -107,7 +143,12 @@ export default function NewContact() {
         dataToSend['avatar_id'] = avatar_id;
       }
 
-      await api.post('contacts', dataToSend);
+      if (id) {
+        await api.put(`contacts/${id}`, dataToSend);
+      } else {
+        await api.post('contacts', dataToSend);
+      }
+
       toast.success('Contato salvo com sucesso!');
       history.push('/contacts');
     } catch (err) {
@@ -134,7 +175,7 @@ export default function NewContact() {
           contatos!
         </p>
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <AvatarInput name="avatar" />
+          <AvatarInput name="avatar" initialData={avatar} />
           <Input
             name="name"
             label="Nome*"
