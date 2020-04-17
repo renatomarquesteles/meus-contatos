@@ -38,7 +38,7 @@ export const Content = styled.div`
   }
 `;
 
-export const AddButtonContainer = styled.div`
+export const AddRemoveButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -50,12 +50,19 @@ export const AddButtonContainer = styled.div`
     width: fit-content;
 
     svg {
+      margin: 0 3px;
       transition: fill 0.2s linear;
     }
 
     &:hover {
       svg {
         fill: ${colors.primary};
+      }
+    }
+
+    &:first-child {
+      svg:hover {
+        fill: ${colors.error};
       }
     }
   }
@@ -84,6 +91,32 @@ export const InputsWrapper = styled.div`
   > div:last-of-type {
     input {
       text-transform: uppercase;
+    }
+  }
+`;
+
+export const PhoneContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+
+  > div {
+    width: 100%;
+  }
+
+  button {
+    background: none;
+    border: 0;
+    width: fit-content;
+
+    svg {
+      transition: fill 0.2s linear;
+      margin: 0 5px;
+    }
+
+    &:hover {
+      svg {
+        fill: ${colors.error};
+      }
     }
   }
 `;

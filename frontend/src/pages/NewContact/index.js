@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import {
   MdAccountCircle,
   MdAddCircleOutline,
+  MdRemoveCircleOutline,
   MdEmail,
   MdPersonAdd,
 } from 'react-icons/md';
@@ -19,12 +20,13 @@ import api from '../../services/api';
 import history from '../../services/history';
 
 import {
-  AddButtonContainer,
+  AddRemoveButtonContainer,
   AddressContainer,
   AddressInfo,
   InputsWrapper,
   Container,
   Content,
+  PhoneContainer,
 } from './styles';
 
 export default function NewContact() {
@@ -169,6 +171,20 @@ export default function NewContact() {
     }
   }
 
+  function handlePhoneRemove() {
+    if (phones.length > 1) {
+      let updatedPhones = [...phones];
+      updatedPhones.pop();
+      setPhones(updatedPhones);
+    }
+  }
+
+  function handleAddressRemove() {
+    let updatedAddresses = [...addresses];
+    updatedAddresses.pop();
+    setAddresses(updatedAddresses);
+  }
+
   return (
     <Container>
       <Content>
@@ -194,13 +210,18 @@ export default function NewContact() {
           />
           <p>Telefone/Celular*</p>
           {phones.map((_, index) => (
-            <PhoneInput key={index} name={`phones[${index}]`} />
+            <PhoneContainer key={index}>
+              <PhoneInput name={`phones[${index}]`} />
+            </PhoneContainer>
           ))}
-          <AddButtonContainer>
+          <AddRemoveButtonContainer>
+            <button type="button" onClick={() => handlePhoneRemove()}>
+              <MdRemoveCircleOutline size={24} color="#444" />
+            </button>
             <button type="button" onClick={() => setPhones([...phones, ''])}>
               <MdAddCircleOutline size={24} color="#444" />
             </button>
-          </AddButtonContainer>
+          </AddRemoveButtonContainer>
           <AddressContainer>
             <label>Endereço</label>
             {addresses.map((_, index) => (
@@ -249,14 +270,17 @@ export default function NewContact() {
                 </Scope>
               </AddressInfo>
             ))}
-            <AddButtonContainer>
+            <AddRemoveButtonContainer>
+              <button type="button" onClick={() => handleAddressRemove()}>
+                <MdRemoveCircleOutline size={24} color="#444" />
+              </button>
               <button
                 type="button"
                 onClick={() => setAddresses([...addresses, ''])}
               >
                 <MdAddCircleOutline size={24} color="#444" />
               </button>
-            </AddButtonContainer>
+            </AddRemoveButtonContainer>
           </AddressContainer>
           <Button type="submit">
             <span>SALVAR CONTATO</span>
