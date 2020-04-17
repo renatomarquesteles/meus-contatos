@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MdAdd, MdEdit, MdRemoveRedEye } from 'react-icons/md';
+import { MdAdd, MdDelete, MdEdit, MdRemoveRedEye } from 'react-icons/md';
 import { FiLoader } from 'react-icons/fi';
 
 import Button from '../../components/Button';
@@ -19,6 +19,7 @@ import {
   Loader,
   ModalInfo,
   Phones,
+  RemoveButton,
   Tools,
 } from './styles';
 
@@ -59,6 +60,16 @@ export default function Contacts() {
   function handleOpenModal(contact) {
     setModalOpen(true);
     setModalInfo(contact);
+  }
+
+  function handleDelete({ id, name }) {
+    if (
+      window.confirm(`Tem certeza que deseja remover ${name} de seus contatos?`)
+    ) {
+      api.delete(`/contacts/${id}`);
+      setContacts(contacts.filter((contact) => contact.id !== id));
+      setModalOpen(false);
+    }
   }
 
   return (
@@ -116,13 +127,18 @@ export default function Contacts() {
         modalHeight={400}
       >
         <ModalInfo>
-          {modalInfo.avatar && (
+          {modalInfo.avatar ? (
             <img src={modalInfo.avatar.url} alt="Avatar do Contato" />
+          ) : (
+            <img
+              src={`https://api.adorable.io/avatars/100/${modalInfo.id}.png`}
+              alt="Avatar do Contato"
+            />
           )}
           <EditButton>
             <Link to={`/contacts/${modalInfo.id}`}>
-              <span>Editar</span>
               <MdEdit size={16} color="#999" />
+              <span>Editar</span>
             </Link>
           </EditButton>
           <div>
@@ -145,7 +161,7 @@ export default function Contacts() {
                 </Phones>
               </>
             )}
-            {modalInfo.addresses && (
+            {modalInfo.addresses?.zipcode && (
               <>
                 <h3>Endereço:</h3>
                 {modalInfo.addresses.map((address) => (
@@ -179,6 +195,12 @@ export default function Contacts() {
             )}
           </div>
         </ModalInfo>
+        <RemoveButton>
+          <Button type="button" onClick={() => handleDelete(modalInfo)}>
+            <MdDelete size={20} color="#f5f5f5" />
+            <span>Remover</span>
+          </Button>
+        </RemoveButton>
       </Modal>
     </Content>
   );

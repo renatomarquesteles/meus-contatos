@@ -164,12 +164,12 @@ export const Phones = styled.div`
 `;
 
 export const EditButton = styled.div`
-  width: 100%;
+  margin-right: 5px;
   display: flex;
   justify-content: flex-end;
 
   svg {
-    margin-left: 5px;
+    margin: 0 5px;
   }
 
   a {
@@ -185,6 +185,20 @@ export const EditButton = styled.div`
 
     &:hover {
       background: ${colors.background};
+    }
+  }
+`;
+
+export const RemoveButton = styled.div`
+  width: 100%;
+  margin-top: 10px;
+
+  button {
+    width: 100%;
+    background: ${colors.error};
+
+    &:hover {
+      background: ${darken(0.06, colors.error)};
     }
   }
 `;
