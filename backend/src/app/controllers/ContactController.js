@@ -39,7 +39,7 @@ class ContactController {
       ],
     });
 
-    if (!contact) {
+    if (!contact || contact.id !== req.userId) {
       return res.status(400).json({ error: 'Contact not found' });
     }
 
@@ -54,6 +54,7 @@ class ContactController {
         name: {
           [Op.like]: `%${name}%`,
         },
+        user_id: req.userId,
       },
       order: [['name', 'ASC']],
       attributes: ['id', 'name', 'email'],
@@ -116,6 +117,7 @@ class ContactController {
       name,
       email,
       avatar_id,
+      user_id: req.userId,
     });
 
     const { addresses, phones } = req.body;
@@ -205,7 +207,7 @@ class ContactController {
 
     const contact = await Contact.findByPk(req.params.id);
 
-    if (!contact) {
+    if (!contact || contact.id !== req.userId) {
       return res.status(400).json({ error: 'Contact not found' });
     }
 
@@ -282,6 +284,12 @@ class ContactController {
 
     if (!contact) {
       return res.status(400).json({ error: 'Contact not found' });
+    }
+
+    if (contact.id !== req.userId) {
+      return res
+        .status(401)
+        .json({ error: 'Cannot delete another user contact' });
     }
 
     await Phone.destroy({ where: { contact_id: contact.id } });

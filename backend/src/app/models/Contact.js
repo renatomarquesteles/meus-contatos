@@ -22,6 +22,7 @@ class Contact extends Model {
       foreignKey: 'avatar_id',
       as: 'avatar',
     });
+    this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
   }
 }
 
