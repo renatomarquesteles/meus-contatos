@@ -49,3 +49,11 @@ _Antes de rodar essa aplicação certifique-se que o Back-End também esteja rod
 ### :star2: Protótipo
 
 Na raiz do projeto existe um arquivo `prototipo.xd` que pode ser aberto no Adobe XD para visualizar as telas prototipadas para o sistema.
+
+### :shipit: Preview
+
+<img src=".github/login.png" />
+<img src=".github/register.png" />
+<img src=".github/contact-list.png" />
+<img src=".github/show-contact.png" />
+<img src=".github/new-contact.png" />
